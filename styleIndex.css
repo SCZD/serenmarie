@@ -90,6 +90,10 @@ body{
     padding-bottom: 0;
 }
 
+.card-text::first-letter{
+    text-transform: capitalize;
+}
+
 .card-tags{
     display: flex;
     margin-top: 12px;
