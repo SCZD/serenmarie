@@ -1,0 +1,251 @@
+@font-face {
+    font-family: OpenSans;
+    src: url(./fonts/Open_Sans/OpenSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url(./fonts/Open_Sans/OpenSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Voyage;
+    src: url(./fonts/Voyage/Voyage-Regular.otf);
+}
+
+*{
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+p{
+    padding: 12px;
+    margin: 0;
+}
+
+
+body{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 50px; /*!*/
+    font-size: 16px;
+}
+
+#paper{
+    min-height: calc(100vh - 50px);
+    background-color: #1e1e1e; /*1a1a1a*/
+    font-family: OpenSans;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eab960;
+    width: 100%;
+}
+
+#title > p{
+    color: #1a1a1a;
+    font-family: Voyage;
+    font-size: 5em;
+    color: #66512a;
+    font-weight: 800;
+}
+
+
+
+#index{
+    margin: 50px 0 50px 0;
+}
+
+#index > ol{
+    padding-left: 12px;
+}
+
+#index ol{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    counter-reset: contador;
+}
+
+#index > ol > li:before{
+    counter-increment: contador;
+    content: counter(contador) ". ";
+}
+
+#index > ol > ol{
+    counter-reset: subContador;
+}
+
+#index > ol > ol > li::before{
+    counter-increment: subContador;
+    content: counter(contador) ". " counter(subContador) ". ";
+}
+
+#index > p{
+    font-size: 1.7em;
+    color: #eab960;
+    padding-bottom: 0px; /* 2px  = 12 parafo - 10 margin */
+}
+
+#index li{
+    margin-top: 15px; /*cambia por bottom y mira lo que pasa*/
+    color: #eab960;
+}
+
+#index a{
+    text-decoration: none;
+    color: #999999;
+}
+
+#index a:hover {
+    text-decoration: underline;
+    color: #eab960;
+}
+
+#context{
+    max-width: 1000px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#content{
+   display: flex;
+   flex-direction: column;
+
+   /* Contador */
+   counter-reset: count;
+}
+
+.content-item{
+    margin-bottom: 75px;
+
+    /* Contador */
+    counter-reset: subCount;
+    counter-increment: count;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.content-item-title{
+    font-size: 1.7em;
+    color: #eab960;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.content-item-subtitle{
+    margin-top: 20px;
+    padding-bottom: 0;
+    font-size: 1.7em;
+    color: #eab960;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.content-item-title::before{
+    content: counter(count) ". ";
+}
+
+.content-item-subtitle::before{
+    counter-increment: subCount;
+    content: counter(count) "." counter(subCount) ". ";
+}
+
+.content-item-text{
+    font-size: 1.20em;
+    line-height: 1.6em;
+    padding-bottom: 4px;
+}
+
+.content-item-code{
+    display: flex;
+    flex-direction: column;
+    margin: 12px 12px 6px 12px;
+    border-left: 6px solid #eab960;
+    background-color: #000000;
+    border-radius: 6px;
+    padding: 1.1em;
+}
+
+.content-item-code > span{
+    font-size: 1em;
+    margin-bottom: 12px;
+}
+
+.content-item-code > span:last-child{
+    margin-bottom: 0;
+}
+
+.content-item-gui{
+    display: flex;
+    flex-direction: column;
+    margin: 12px 12px 12px 12px;
+    border: 1px solid #eab960;
+    border-radius: 10px;
+}
+
+.content-item-obs{
+    font-size: 1em;
+    margin: 2px 0 2px 0;
+    line-height: 1.5em;
+}
+
+.content-item-obs::before{
+    content: 'Obs: ';
+    color: #eab960;
+    font-weight: bold;
+}
+
+.content-item-img{
+    margin: 16px 12px 6px 12px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.content-item-table{
+    border-collapse: collapse;
+    margin: 16px 12px 12px 12px;
+}
+
+.content-item-table, th, td{
+    border: 3px solid #66512a;
+    color: #eab960;
+    padding: 10px;
+}
+
+th{
+    background-color: #66512a;
+    color: #eab960;
+}
+
+.content-item-table td{
+    text-align: center;
+}
+
+footer{
+    position: absolute;
+    display: flex;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #0a0a0a;
+    justify-content: center;
+    align-items: center;
+}
+
+footer > p{
+    font-family: OpenSans;
+}

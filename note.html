@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Divina Arch Linux</title>
+    <link rel="stylesheet" href="./normalize.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./js/createIndex.js"></script>
+</head>
+<!-- paper | title
+           | context | index
+                     | content | content-item 
+                               | content-item
+                               | content-item (hasta N)  | content-title (unique)
+                                                         | content-subtitle
+                                                         | content-img  
+                                                         | content-code | span (hasta N)
+                                                         | content-obs (hasta N)
+                                                         | content-subtitle (hasta N)
+                                                         | content-text (hasta N)
+-->
+<body>
+    <div id="paper">
+        <div id="title">
+            <p>Arch Linux</p>
+        </div>
+        <div id="context">
+            <div id="index">
+                <p>Indice</p>
+            </div>
+            <div id="content">
+                <div class="content-item">
+                    <p class="content-item-title">
+                        Instalacion
+                    </p>
+                    <p class="content-item-text">
+                        Esta guia sirve tanto para instalar Arch Linux de manear fisica como virtual (VMware).
+                    </p>
+                    <p class="content-item-subtitle">
+                        VMware
+                    </p>
+                    <p class="content-item-text">
+                        Creamos la maquina virtual con las estas propiedades.
+                    </p>
+                    <p class="content-item-gui">
+                        <span>
+                            "File" -> "New Virtual Machine" -> "Typical (recommended)" -> "I will install the operating system later" -> "Linux" y "Other Linux 5.x kernel 64-bit" -> 
+                            Nombre de la maquina virtual ('Amicia' en mi caso) -> "100GB" y "Split virtual into multiple files" -> "Customize Hardware", Remove "Printer" y Subir RAM a  "4GB", "Close" y "Finish".
+                        </span>
+                    </p>
+                    <p class="content-item-text">
+                        Configurar el tipo de Firmware a UEFI.
+                    </p>
+                    <p class="content-item-gui">
+                        <span>"Edit virtual machine settings", "Options" -> "Guest Isolation" Hacer uncheck a todo, "Advance" elegir "UEFI in Firmware type" y "Ok".</span>
+                    </p>
+                    <p class="content-item-text">
+                        Para cargar la ISO del Arch Linux.
+                    </p>
+                    <p class="content-item-gui">
+                        "Edit virtual machine settings", "CD/DVD (IDE)", "Use ISO image file", "Browse" aqui buscaremos la iso -> "Ok".
+                    </p>
+                    <p class="content-item-text">
+                        (Opcional)
+                    </p>
+                    <p class="content-item-gui">
+                        =====================
+                    </p>
+                    <p class="content-item-text">
+                        Ahora arracamos la maquina virtual.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Layout
+                    </p>
+                    <p class="content-item-text">
+                        La layout de Arch por defecto vienen en US si la deseas cambiar a castellano.
+                    </p>
+                    <p class="content-item-code">
+                        <span>loadkeys es</span>
+                    </p>
+                    <p class="content-item-obs">
+                        <span>Para ver todas las layouts locatectl list-keymaps</span>
+                    </p>
+                    <p class="content-item-subtitle">
+                        Conexion a internet
+                    </p>
+                    <p class="content-item-text">
+                        Verificamos que tenemos conexion.
+                    </p>
+                    <p class="content-item-code">
+                        <span>ping google.es</span>
+                    </p>
+                    <img src="./img/ping.png" alt="" class="content-item-img">
+                    <p class="content-item-subtitle">
+                        UEFI
+                    </p>
+                    <p class="content-item-text">
+                        Verificamos que estamos en UEFI, si sale algo similar a la imagen estamos ante UEFI.
+                    </p>
+                    <p class="content-item-code">
+                        <span>ls /sys/firmware/efi/efivars/</span>
+                    </p>
+                    <img src="./img/uefiCheck.png" alt="" class="content-item-img">
+                    <p class="content-item-subtitle">
+                        Particiones
+                    </p>
+                    <p class="content-item-text">
+                        Con lsblk (list block) podemos ver todas las particiones de todos los discos
+                    </p>
+                    <p class="content-item-code">
+                        <span>lsblk</span>
+                    </p>
+                    <img src="./img/lsblk.png" alt="" class="content-item-img">
+                    <p class="content-item-text">
+                        Para crear las particiones usaremos cfdisk.
+                    </p>
+                    <p class="content-item-code">
+                        <span>cfdisk</span>
+                    </p>
+                    <img src="./img/cfdiskGPT.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        <span>De tipo gpt porque estamos ante UEFI y creamos las particiones siguiendo la siguiente tabla.</span>
+                    </p>
+                    <table class="content-item-table">
+                        <tr>
+                            <th>Size</th>
+                            <th>Type</th>
+                            <th>Which</th>
+                            <th>Disk</th>
+                        </tr>
+                        <tr>
+                            <td>512M</td>
+                            <td>EFI System</td>
+                            <td>/boot/efi</td>
+                            <td>/dev/sdx1</td>
+                        </tr>
+                        <tr>
+                            <td>50G</td>
+                            <td>Linux filesystem</td>
+                            <td>/root</td>
+                            <td>/dev/sdx2</td>
+                        </tr>
+                        <tr>
+                            <td>45.5G</td>
+                            <td>Linux filesystem</td>
+                            <td>/home</td>
+                            <td>/dev/sdx3</td>
+                        </tr>
+                        <tr>
+                            <td>(RAM/2)G = 4G</td>
+                            <td>Linux swap</td>
+                            <td>swap</td>
+                            <td>/dev/sdx4</td>
+                        </tr>
+                    </table>
+                    <img src="./img/cfdiskPart.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        <span>Hay que darle a Write y escribir 'yes', ademas son M no MB por tanto son 512MiB.</span>
+                    </p>
+                    <p class="content-item-text">
+                        Para verificar que hicimos bien las particiones.
+                    </p>
+                    <img src="./img/lsblkCheck.png" alt="" class="content-item-img">
+                    <p class="content-item-text">
+                        Ahora hay que formatear las particiones.
+                    </p>
+                    <p class="content-item-code">
+                        <span>mkfs.vfat -F 32 /dev/sdx1</span>
+                        <span>mkfs.ext4 /dev/sdx2</span>
+                        <span>mkfs.ext4 /dev/sdx3</span>
+                        <span>mkswap /dev/sdx4</span>
+                        <span>swapon</span>
+                    </p>
+                    <p class="content-item-text">
+                        Lo que estamos haciendo.
+                    </p>
+                    <table class="content-item-table">
+                        <tr>
+                            <th>Command</th>
+                            <th>What I'm doing?</th>
+                        </tr>
+                        <tr>
+                            <td>mkfs.vfat -F 32 /dev/sdx1</td>
+                            <td>formatear el boot</td>
+                        </tr>
+                        <tr>
+                            <td>mkfs.ext4 /dev/sdx2</td>
+                            <td>formatear el root en ext4</td>
+                        </tr>
+                        <tr>
+                            <td>mkfs.ext4 /dev/sdx3</td>
+                            <td>formatear el home en ext4</td>
+                        </tr>
+                        <tr>
+                            <td>mkswap /dev/sdx4</td>
+                            <td>formatear la swap</td>
+                        </tr>
+                        <tr>
+                            <td>swapon</td>
+                            <td>ininiar la swap</td>
+                        </tr>
+                    </table>
+                    <p class="content-item-obs">
+                        mkfs i.e make file system.format
+                    </p>
+                    <img src="./img/formatPart.png" alt="" class="content-item-img">
+                    <p class="content-item-text">
+                        Para montar las particiones.
+                    </p>
+                    <p class="content-item-code">
+                        <span>mount /dev/sdx2 /mnt</span>
+                        <span>mkdir /mnt/boot</span>
+                        <span>mkdir /mnt/boot/efi</span>
+                        <span>mount /dev/sdx1 /mnt/boot/efi</span>
+                        <span>mkdir /mnt/home</span>
+                        <span>mount /dev/sdx3 /mnt/home</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Podemos usar mkdir -p para asi no tener que usar dos veces mkdir pero por seguridad lo hacemos asi,
+                        ademas la x significa si es a, b, c depende de cada caso es uno u otro.
+                    </p>
+                    <img src="./img/mountPart.png" alt="" class="content-item-img">
+                    <p class="content-item-subtitle">
+                        Instacion perse
+                    </p>
+                    <p class="content-item-text">
+                        Los paquetes necesarios para instalacion.
+                    </p>
+                    <p class="content-item-code">
+                        <span>pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager nano sudo</span>
+                    </p>
+                    <img src="./img/errorSign.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Si sale esto hay que hacer pacman -Sy archlinux-keyring , y volver a ejecutar el commado anterior.
+                    </p>
+                    <p class="content-item-text">
+                        Si todo a ido correcto tendria que resultar en algo similar a esto.
+                    </p>
+                    <img src="./img/pacstrapSuccess.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Deberia ir rapida la conexion sin haber cambiado nada de la timezone, ya que en
+                        principio las mirrorlist estan configuradas al pais respecto donde descarga la ISO.
+                    </p>
+                    <p class="content-item-subtitle">
+                        FileSystem Table
+                    </p>
+                    <p class="content-item-text">
+                        Crearemos la tabla (arbol) de los archivos del sistema.
+                    </p>
+                    <p class="content-item-code">
+                        <span>genfstab -U /mnt >> /mnt/etc/fstab</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Para verla cat /mnt/etc/fstab
+                    </p>
+                    <p class="content-item-text">
+                        Cambiamos al punto de montaje de la maquina virtual.
+                    </p>
+                    <p class="content-item-code">
+                        <span>arch-chroot /mnt</span>
+                    </p>
+                    <p class="content-item-obs">
+                        <span>
+                            Con $ ls deberias poder ver que se ha generado todo correctamente tambien dentro de /boot/efi/
+                        </span>
+                    </p>
+                    <p class="content-item-subtitle">
+                        Zonas horaria, reloj, teclado
+                    </p>
+                    <p class="content-item-text">
+                        Adecuamos la hora a nustra zona geografica.
+                    </p>
+                    <p class="content-item-code">
+                        <span>ln -sf /usr/share/zoneinfo/Region/City /etc/localtime</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Region = Europe, City = Madrid. Para ver todas las zonas timedatectl list-timezones
+                    </p>
+                    <p class="content-item-text">
+                        Ajustar hora del rejol local
+                    </p>
+                    <p class="content-item-code">
+                        <span>hwclock --systohc</span>
+                    </p>
+                    <p class="content-item-obs">
+                        <span>Tambien se puede usar hwclock -w</span>
+                    </p>
+                    <p class="content-item-text">
+                        Generar los locale, para ello descomentamos "en_US.UTF-8 UTF-8" y "es_ES.UTF-8 UTF-8".
+                    </p>
+                    <p class="content-item-code">
+                        <span>nano /etc/locale.gen </span>
+                    </p>
+                    <p class="content-item-text">
+                        Posteriormente
+                    </p>
+                    <p class="content-item-code">
+                        <span>locale-gen</span>
+                    </p>
+                    <img src="./img/localeGen.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Como podemos ver los que estan descomentados al aplicar locale-gen los genera.
+                    </p>
+                    <p class="content-item-text">
+                        Para dar el idioma al sistema
+                    </p>
+                    <p class="content-item-code">
+                        <span>echo "LANG=en_US.UTF-8" > /etc/locale.conf</span>
+                    </p>
+                    <p class="content-item-text">
+                        Layout de la vconsole (de la terminal tanto fuera de gui como en emulador)
+                    </p>
+                    <p class="content-item-code">
+                        <span>echo "KEYMAP=us" > /etc/vconsole.conf</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Para ver todos los keymaps localectl list-keymaps
+                    </p>
+                    <img src="./img/echoIDImap.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                       Deberia quedar algo asi pero adaptado al idioma y layout que uses.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Gestion del sistema
+                    </p>
+                    <p class="content-item-text">
+                        Para poner el Hostname (Nombre de la maquina)
+                    </p>
+                    <p class="content-item-code">
+                        <span>echo "amicia" > /etc/hostname</span>
+                    </p>
+                    <p class="content-item-obs">
+                        No tiene porque coincidir el nombre de la maquina virual con el nombre que le diste al crear la maquina
+                        en VMware.
+                    </p>
+                    <p class="content-item-text">
+                        A parte hay que editar el /etc/hosts, para la configuracion de la "DNS".
+                    </p>
+                    <p class="content-item-code">
+                        <span>127.0.0.1	    localhost</span>
+                        <span>::1		    localhost</span>
+                        <span>127.0.0.1     amicia.localhost amicia</span>
+                    </p>
+                    <p class="content-item-obs">::1 es para IPv6</p>
+                    <img src="./img/etcHosts.png" alt="" class="content-item-img">
+                    <p class="content-item-text">
+                        Damos la password que querramos al usuario root.
+                    </p>
+                    <p class="content-item-code">
+                        <span>passwd</span>
+                    </p>
+                    <p class="content-item-text">
+                        Creamos nuestro usuario en el sistema.
+                    </p>
+                    <p class="content-item-code">
+                        <span>useradd -m flor</span>
+                    </p>
+                    <p class="content-item-obs">
+                        -m crea el direcotrio home correspondiente a ese usuario.
+                    </p>
+                    <p class="content-item-text">
+                        Le damos una password al usuario creado con anterioridad.
+                    </p>
+                    <p class="content-item-code">
+                        <span>passwd flor</span>
+                    </p>
+                    <p class="content-item-text">
+                        Introducirlo en el grupo wheel para que pueda usar sudo, ademas de otros.
+                    </p>
+                    <p class="content-item-code">
+                        <span>usermod -aG wheel,video,audio,storage flor</span>
+                    </p>
+                    <p class="content-item-text">
+                        Editamos el /etc/sudoers para habilitar el sudo conocido.
+                    </p>
+                    <p class="content-item-code">
+                        <span>nano /etc/sudoers</span>
+                    </p>
+                    <img src="./img/sudoers.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Descomentamos SOLO el primer #wheel, como se ve en la imagen asi tiene que quedar.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Internet permanente
+                    </p>
+                    <p class="content-item-text">
+                        Haremos que se conecte a internet automaticamente al encender la maquina.
+                    </p>
+                    <p class="content-item-code">
+                        <span>systemctl enable NetworkManager</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Esto creara un enlace simbolico (soft link).
+                    </p>
+                    <p class="content-item-subtitle">
+                        GRUB
+                    </p>
+                    <p class="content-item-text">
+                        Para instalar el GRUB en modo UEFI.
+                    </p>
+                    <p class="content-item-code">
+                        <span>grub-install --efi-directory=/boot/efi --bootloader-id='Amicia' --target=x86_64-efi</span>
+                    </p>
+                    <p class="content-item-obs">
+                        El id del bootloader no hace falta que coincida ni con el nombre de la maquina ni el nombre puesto en VMware.
+                    </p>
+                    <p class="content-item-text">
+                        Para configurarlo.
+                    </p>
+                    <p class="content-item-code">
+                        <span>grub-mkconfig -o /boot/grub/grub.cfg</span>
+                    </p>
+                    <img src="./img/grub-mkconfig.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Sale una alerta porque no tenemos **os-prober** abria que instalarlo y ejecutarlo en caso de que tengamos mas sitemas operativos
+                        en el sistema o querramos hacer un dual boot en un futuro en ese caso solo lo **ejecutamos** y **posteriormente** ejecutarmos
+                        la **configuracion**.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Desmontar
+                    </p>
+                    <p class="content-item-text">
+                        Ahora tocaria desmontar la ISO
+                    </p>
+                    <p class="content-item-code">
+                        <span>exit</span>
+                        <span>umount -R /mnt</span>
+                        <span>shutdown now</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Despues de esto la arrancamos y ya la tendriamos correctamente instalada.
+                    </p>
+                    <img src="./img/freshInstall.png" alt="" class="content-item-img">
+                </div>
+
+                <div class="content-item">
+                    <p class="content-item-title">
+                        Post-Instalacion
+                    </p>
+                    <p class="content-item-text">
+                        Aqui veremos cuales son los primeros pasos despues de haber instalado Arch, pero antes 
+                        que todo actualizamos las mirrorlost por si las han cambiado.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -Syu</span>
+                    </p>
+                    <p class="content-item-subtitle">
+                        Driver Graficos
+                    </p>
+                    <p class="content-item-text">
+                        Para targetas grafias nvidia
+                    </p>
+                    <p class="content-item-code">
+                        <span>pacman -S xf86-video-nouveau</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Para ver tu targeta grafica lspci | grep VGA
+                    </p>
+                    <p class="content-item-text">
+                        Para VMware.
+                    </p>
+                    <p class="content-item-code">
+                        <span>pacman -S open-vm-tools xf86-video-vmware xf86-input-vmmouse</span>
+                    </p>
+                    <p class="content-item-text">
+                        Habilitamos el demonio del mismo.
+                    </p>
+                    <p class="content-item-code">
+                        systemctl enable vmtoolsd
+                    </p>
+                    <p class="content-item-obs">
+                        De alli la d final, significa daemon.
+                    </p>
+                </div>
+
+                <div class="content-item">
+                    <p class="content-item-title">
+                        Personalizacion
+                    </p>
+                    <p class="content-item-text">
+                        Usaremos un tilling de windows manager en concreto Qtile, ya que esta Personalizacion
+                        esta centrada en el minimalismo y focalizada en la maxima productividad posible.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Qtile
+                    </p>
+                    <p class="content-item-text">
+                        En este paso instalaremos qtile, el emulador de terminal y el gestor de sessiones.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S xorg qtile xterm alacritty lightdm lightdm-gtk-greeter</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Para lanzarlo ***$ sudo systemctl start lightdm,
+                        ctrl + alt + f2 otra terminal
+                        por defecto qtile usa xterm ??.
+                    </p>
+                    <p class="content-item-text">
+                        Instalaremos un bundle de software necesarios.
+                    </p>
+                    <p class="content-item-code">
+                        <span>
+                            sudo pacman -S unzip locate which thunar ranger rofi sed code git firefox
+                        </span>
+                    </p>
+                    <p class="content-item-obs">
+                        sudo updatedb para que el locate localice
+                    </p>
+                    <p class="content-item-code">
+                        Solo hay que pegar mi config.py en /home/flor/.config/qtile/config.py
+                    </p>
+                    <table class="content-item-table">
+                        <tr>
+                            <th>KEYBINDINGS</th>
+                            <th>ACTION</th>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + ENTER</td>
+                            <td>Abrir terminal</td>
+                        </tr>
+
+                        <tr>
+                            <td>MODKEY + TAB</td>
+                            <td>Ciclar entre las layouts disponibles</td>
+                        </tr>
+
+                        <tr>
+                            <td>MODKEY + w</td>
+                            <td>Cerrar la ventana que tiene el focus</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + CTRL + r</td>
+                            <td>Reininiciar qtile</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + 1-9</td>
+                            <td>Cambiar entre los espacios de trabajo</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + SHIFT + 1-9</td>
+                            <td>Enviar la ventana que tiene el focus a ese espacio de trabajo</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + h</td>
+                            <td>Cambiar el focus a la izquierda</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + j</td>
+                            <td>Cambiar el focus hacia abajo o rotarlo en ese sentido</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + k</td>
+                            <td>Cambiar el focus hacia arriba o rotarlo en ese sentido</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + l</td>
+                            <td>Cambiar el focus hacia la derecha</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + [h,j,k,l]</td>
+                            <td>Mover la ventana con el focus en sentido de correspondiente a [h,j,k,l]</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + n</td>
+                            <td>Resetear las ventanas</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + CTRL + q</td>
+                            <td>Apagar qtile</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + m</td>
+                            <td>Lanzar rofi</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + SHIFT + m</td>
+                            <td>Lanzar rofi pero de ventanas</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + b</td>
+                            <td>Lanzar el browser</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + e</td>
+                            <td>Lanzar el explorador</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + f</td>
+                            <td>Toggle entre flotante y la correspondiente layout</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + s</td>
+                            <td>Screenshoot pantalla completa</td>
+                        </tr>
+                        <tr>
+                            <td>MODKEY + SHIFT + s</td>
+                            <td>Screenshoot arrea de la pantalla</td>
+                        </tr>
+                    </table>
+                    <p class="content-item-obs">
+                        Hay lanzamiento que estan preconfigurados para ventanas en concreto, ademas si estas en un
+                        grupo y cambias al mismo hace toggle al grupo anterior. Ademas lanza por defecnto en la ventada DEV
+                    </p>
+                    <p class="content-item-subtitle">
+                        Fuentes
+                    </p>
+                    <p class="content-item-text">
+                        Instalaremos nerd fonts (Caskaydia Cove Nerd Font, Mononoki Nerd Font, JetBrainsMono Nerd Font)
+                    </p>
+                    <p class="content-item-code">
+                        <span>mkdir /usr/share/fonts/TTF</span>
+                        <span>unzip fuenteDescargada.zip</span>
+                        <span>rm fuenteDescargada.zip</span>
+                        <span>sudo mv *.tff /usr/share/fonts/TTF</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Si fueran otf creamos el directorio OTF y hacemos lo mismo, 
+                        fc-list | grep "NombreFuente" para saber el nombre real,
+                    </p>
+                    <p class="content-item-text">
+                        Para aplicar los cambios
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo fc-cache -fv</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Las fuentes se pueden guardan tambien en ~/.local/share/fonts,
+                        pero esto implica que no sera funcional para el resto
+                        de usuarios.
+                    </p>
+                    <p class="content-item-text">
+                        Ahora hay que cambiar la fuente tanto en qtile, como en alacritty.
+                    </p>
+                    <img src="./img/changeFontQtile.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Hay que hacer reboot para que se hagan efectivos los cambios (Qtile).
+                    </p>
+                    <p class="content-item-subtitle">
+                        Alacritty
+                    </p>
+                    <p class="content-item-text">
+                        Para configurar alacritty lo unico es pegar mi archivo de configuracion en una
+                        un directorio hecho en .config.
+                    </p>
+                    <p class="content-item-code">
+                        <span>mkdir /home/flor/.config/alacritty/</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Con locate alacritty.yml encontramos el archvio de configuracion lo podemos pegar
+                        en la ruta descrita enteriormente y configurarlo desde 0. Basicamente es que viene
+                        por defecto un archvivo de configuracion completamente comentado.
+                    </p>
+                    <p class="content-item-text">
+                        Para cambiar a la fuente puesta en el subtitulo anterior
+                    </p>
+                    <img src="./img/fontAlacr.PNG" class="content-item-img" alt="">
+                    <p class="content-item-obs">
+                        Alacritty cambia a tiempo real una vez guardado los cambis abrimos una nuevga
+                        terminal los ves.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Alias
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Created: 25 DEC 2022 - Last Update: Today</p>
+    </footer>
+</body>
+</html>
