@@ -248,4 +248,37 @@ footer{
 
 footer > p{
     font-family: OpenSans;
+    margin: 0;
+    padding: 0px 0 0px 0;
+}
+
+
+@media (max-width: 500px) {
+    #context, .content-item-title, .content-item-subtitle, .content-item-table,
+    .content-item-text, .content-item-code, .content-item-img, .content-item-obs, 
+    .content-item-gui{
+        margin-left: 0;
+        margin-right: 0;
+
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    #context{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    body{
+        font-size: 13px;
+    }
+
+    .content-item-code > span, .content-item-gui{
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    #title > p{
+        text-align: center;
+    }
 }
