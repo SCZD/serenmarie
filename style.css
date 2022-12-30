@@ -59,38 +59,45 @@ body{
     font-weight: 800;
 }
 
-
-
-#index{
-    margin: 50px 0 50px 0;
+#index::-webkit-scrollbar {
+    width: 0px;
 }
 
-#index > ol{
+#index::-webkit-scrollbar-track {
+    width: 0;
+}
+
+#index::-webkit-scrollbar-thumb {
+    width: 0;
+}
+
+#index-content > ol{
+    margin-top: 0;
     padding-left: 12px;
 }
 
-#index ol{
+#index-content ol{
     display: flex;
     flex-direction: column;
     list-style-type: none;
     counter-reset: contador;
 }
 
-#index > ol > li:before{
+#index-content > ol > li:before{
     counter-increment: contador;
     content: counter(contador) ". ";
 }
 
-#index > ol > ol{
+#index-content > ol > ol{
     counter-reset: subContador;
 }
 
-#index > ol > ol > li::before{
+#index-content > ol > ol > li::before{
     counter-increment: subContador;
     content: counter(contador) ". " counter(subContador) ". ";
 }
 
-#index > p{
+#index-content > p{
     font-size: 1.7em;
     color: #eab960;
     padding-bottom: 0px; /* 2px  = 12 parafo - 10 margin */
