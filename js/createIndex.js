@@ -86,12 +86,29 @@ function defer(){
             index.style.borderBottomRightRadius = '10px';
         }
         
-        document.addEventListener('scroll', function hola(e) {
-            if(window.scrollY > 600){
-                change();
-                e.target.removeEventListener('scroll',hola);
-            }
-        });
+        function detectMob() {
+            const toMatch = [
+                /Android/i,
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /BlackBerry/i,
+                /Windows Phone/i
+            ];
+            
+            return toMatch.some((toMatchItem) => {
+                return navigator.userAgent.match(toMatchItem);
+            });
+        }
+
+        if(!detectMob()){
+            document.addEventListener('scroll', function hola(e) {
+                if(window.scrollY > 600){
+                    change();
+                    e.target.removeEventListener('scroll',hola);
+                }
+            });
+        }
     }
 }
 
