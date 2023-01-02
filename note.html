@@ -13,13 +13,13 @@
            | context | index
                      | content | content-item 
                                | content-item
-                               | content-item (hasta N)  | content-title (unique)
-                                                         | content-subtitle
-                                                         | content-img  
-                                                         | content-code | span (hasta N)
-                                                         | content-obs (hasta N)
-                                                         | content-subtitle (hasta N)
-                                                         | content-text (hasta N)
+                               | content-item (hasta N)  | content-item-title (unique)
+                                                         | content-item-subtitle
+                                                         | content-item-img  
+                                                         | content-item-code | span (hasta N)
+                                                         | content-item-obs (hasta N)
+                                                         | content-item-subtitle (hasta N)
+                                                         | content-item-text (hasta N)
 -->
 <body>
     <div id="paper">
@@ -28,7 +28,12 @@
         </div>
         <div id="context">
             <div id="index">
-                <p>Indice</p>
+                <div id="index-content">
+                    <p>Indice</p>
+                </div>
+                <div id="index-trigger">
+                    
+                </div>
             </div>
             <div id="content">
                 <div class="content-item">
@@ -477,7 +482,7 @@
 
                 <div class="content-item">
                     <p class="content-item-title">
-                        Personalizar
+                        Desktop Enviroment
                     </p>
                     <p class="content-item-text">
                         Usaremos un tilling de windows manager en concreto Qtile, ya que esta Personalizacion
@@ -493,7 +498,7 @@
                         <span>sudo pacman -S xorg qtile xterm alacritty lightdm lightdm-gtk-greeter</span>
                     </p>
                     <p class="content-item-obs">
-                        Para lanzarlo ***$ sudo systemctl start lightdm,
+                        Para lanzarlo ***$ sudo systemctl enable lightdm y luego start,
                         ctrl + alt + f2 otra terminal
                         por defecto qtile usa xterm ??.
                     </p>
@@ -510,6 +515,10 @@
                     </p>
                     <p class="content-item-code">
                         <span>Solo hay que pegar mi config.py en /home/flor/.config/qtile/config.py</span>
+                    </p>
+                    <p class="content-item-obs">
+                        xprop WM_CLASS, sirver para saber como se llama la ventana para poder lanzarla en X espacio
+                        por default al invocarla.
                     </p>
                     <table class="content-item-table">
                         <tr>
@@ -662,6 +671,397 @@
                     </p>
                     <p class="content-item-subtitle">
                         Alias
+                    </p>
+                    <p class="content-item-text">
+                        Creamos alias a ls cat y tree para usar bat lsd tree
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S bat lsd tree</span>
+                    </p>
+                    <p class="content-item-text">
+                        Los alias los crearemos en /home/flor/.bashrc
+                    </p>
+                    <p class="content-item-code">
+                        <span>alias ls="lsd"</span>
+                        <span>alias cat="bat"</span>
+                        <span>alias tree="tree -C"</span>
+                        <span>alias ll="ls -l"</span>
+                    </p>
+                    
+                    <p class="content-item-obs">
+                        Para recargar el bash source ~/.bashrc y source ~/.bash_profile,
+                        version corta . ~/.bashrc. Es opcional pero podemos borrar el alias relacionado a ls en 
+                        /home/flor/.bashrc
+                    </p>
+                    <p class="content-item-subtitle">
+                        Cambiar tema iconos y cursor
+                    </p>
+                    <p class="content-item-text">
+                        Los temas, cursores e iconos se descargan desde gnome-look.org, alli eliges el que quieres,
+                        para saber nuestra version de gtk.
+                    </p>
+                    <p class="content-item-code">
+                        <span>gtk-launch --version</span>
+                    </p>
+                    <p class="content-item-obs">
+                        En principio todos los temas son compatibles asique saber la version es 
+                        meramente por curisosidad.
+                    </p>
+                    <p class="content-item-obs">
+                        Al cambiar el tema del gtk este cambiara en todos los programas que usen gtk
+                        como es logico.
+                    </p>
+                    <p class="content-item-code">
+                        <span>unzip themeDescargado.zip</span>
+                        <span>unzip themeIconosDescargado.zip</span>
+                        <span>unzip themeMouseDescargado.zip</span>
+                    </p>
+                    <img src="./img/unzipTheme.png" alt="" class="content-item-img">
+                    <p class="content-item-code">
+                        <span>sudo mv "themeFolder" /usr/share/themes/</span>
+                        <span>sudo mv "themeIconsFolder" /usr/share/icons/</span>
+                        <span>sudo mv "themeMouseFolder" /usr/share/icons/</span>
+                    </p>
+                    <p class="content-item-text">
+                        Instalar Engine Murrine.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S gtk-engine-murrine</span>
+                    </p>
+                    <p class="content-item-text">
+                        Para cambiar el tema e iconos, tenemos que crear 2 archivos desde el home nuestro de usuario i.e ~
+                    </p>
+                    <p class="content-item-code">
+                        <span>touch .gtkrc-2.0 .config/gtk-3.0/settings.ini</span>  
+                    </p>
+                    <p class="content-item-text">
+                        Y pegamos en .gtkrc-2.0
+                    </p>
+                    <p class="content-item-code">
+                        <span>gtk-theme-name="Gruvbox-Dark-BL"</span>
+                        <span>gtk-icon-theme-name="gruvbox_dark"</span>
+                        <span>gtk-font-name="Cantarell 11"</span>
+                        <span>gtk-cursor-theme-name="Adwaita"</span>
+                        <span>gtk-cursor-theme-size=0</span>
+                        <span>gtk-toolbar-style=GTK_TOOLBAR_BOTH</span>
+                        <span>gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR</span>
+                        <span>gtk-button-images=0</span>
+                        <span>gtk-menu-images=0</span>
+                        <span>gtk-enable-event-sounds=0</span>
+                        <span>gtk-enable-input-feedback-sounds=0</span>
+                        <span>gtk-xft-antialias=1</span>
+                        <span>gtk-xft-hinting=1</span>
+                        <span>gtk-xft-hintstyle="hintfull"</span>
+                        <span>gtk-xft-rgba="rgb"</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Cambiamos el nombre al theme-name, icon-theme-name y cursor-theme-name.
+                        El nombre tanto del tema de iconos como tema normal es el nombre
+                        que tenga la carpeta. Si quieres cambier la fuente tambien lo puedes hacer.
+                    </p>
+                    <p class="content-item-text">
+                        En .config/gtk-3.0/settings.ini pegamos
+                    </p>
+                    <p class="content-item-code">
+                        <span>[Settings]</span>
+                        <span>gtk-theme-name=Gruvbox-Dark-BL</span>
+                        <span>gtk-icon-theme-name=gruvbox_dark</span>
+                        <span>gtk-font-name=Cantarell 11</span>
+                        <span>gtk-cursor-theme-name=Adwaita</span>
+                        <span>gtk-cursor-theme-size=0</span>
+                        <span>gtk-toolbar-style=GTK_TOOLBAR_BOTH</span>
+                        <span>gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR</span>
+                        <span>gtk-button-images=0</span>
+                        <span>gtk-menu-images=0</span>
+                        <span>gtk-enable-event-sounds=0</span>
+                        <span>gtk-enable-input-feedback-sounds=0</span>
+                        <span>gtk-xft-antialias=1</span>
+                        <span>gtk-xft-hinting=1</span>
+                        <span>gtk-xft-hintstyle=hintfull</span>
+                        <span>gtk-xft-rgba=rgb</span>
+                        <span>gtk-decoration-layout=menu:close</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Cambiamos el nombre al theme-name, icon-theme-name y cursor-theme-name. 
+                        El nombre tanto del tema de iconos como tema normal es el nombre
+                        que tenga la carpeta. Si quieres cambier la fuente tambien lo puedes hacer.
+                    </p>
+                    <p class="content-item-text">
+                        Y con reiniciar ya estaria aplicado el tema correctamente, en caso que 
+                        no fucione cambiar por el nombre adecuado del tema dentro de estos ficheros.
+                    </p>
+                    <p class="content-item-code">
+                        <span>nano /usr/share/gtk-2.0/gtkrc</span>
+                        <span>nano /etc/gtk-3.0/settings.ini</span>
+                        <span>nano /etc/gtk-2.0/gtkrc</span>
+                    </p>
+                    <p class="content-item-text">
+                        Ahora cambiaremos el mouse
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S xcb-util-cursor</span>
+                    </p>
+                    <p class="content-item-text">
+                        Para aplicar los cambios al mouse, cambiar al nombre del tema del mouse.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo nano /usr/share/icons/default/index.theme</span>
+                    </p>
+                    <img src="./img/mouse.png" alt="" class="content-item-img">
+                    <p class="content-item-obs">
+                        Es en nombre de la carpeta es el nombre del tema.
+                    </p>
+                    <p class="content-item-obs">
+                        Reiniciar y ya estaria los cambios aplicados.
+                        Tambien puedes descargar lxappearance y te lo hace todo el.
+                    </p>
+                </div>
+
+                <div class="content-item">
+                    <p class="content-item-title">
+                        Software
+                    </p>
+                    <p class="content-item-subtitle">
+                        Thunar
+                    </p>
+                    <p class="conten-item-text">
+                        Este sera nuestro explorador de archivos grafico ya que es minimalista, ligero
+                        y tiene todas las funcionalidades que esperamos de un explorador de archivos.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S thunar</span>
+                    </p>
+                    <p class="content-item-obs">
+                        El keymap ya se encuentra introducido en qtile, ademas la
+                        libreria que genera los graficos de thunar, firefox es gtk.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Rofi
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S rofi</span>
+                    </p>
+                    <p class="content-item-obs">
+                        El keybinding ya esta en qtile (los 2).
+                    </p>
+                    <p class="content-item-text">
+                        Para ponerle temas al rofi.
+                    </p>
+                    <p class="content-item-subtitle">
+                        Background
+                    </p>
+                    <p class="content-item-text">
+                        Para tener fondo de pantalla
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo apt install feh</span>
+                    </p>
+                    <p class="content-item-text">
+                        Hay que crear el autostart.sh en .config/qtile/, para que nada mas inicie 
+                        Arch carge.
+                    </p>
+                    <p class="content-item-code">
+                        <span>nano .config/qtile/autostart.sh</span>
+                        <span>chmod +x .config/qtile/autostart.sh</span>
+                    </p>
+                    <p class="content-item-code">
+                        <span>#!/bin/sh</span>
+                        <span>feh --bg-scale /path/img &</span>
+                    </p>
+                    <p class="content-item-subtitle">
+                        Audio
+                    </p>
+                    <p class="content-item-text">
+                        Por defecto no hay auido asique toca instalarlo.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S pulseaudio pavucontrol pulseaudio-alsa alsa-utils</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Si al reiniciar tenemos audio nice si no meterlo en xsession o autostart.sh, el volumen por
+                        defecto es 0 asi que hay que subirlo desde el teclado recuerda que ya esta configurado previamente
+                        en qtile.
+                    </p>
+                    <p class="content-item-text">
+                        Para configurar salida, volumen entre otros.
+                    </p>
+                    <p class="content-item-code">
+                        <span>pavucontrol</span>
+                    </p>
+
+                    <p class="content-item-subtitle">
+                        Xephry
+                    </p>
+                    <p class="content-item-text">
+                        Viene en el paquete de xorg
+                    </p>
+                    <p class="content-item-code">
+                        <span>Xephyr -br -ac -noreset -screen 1680x1050 :1 &</span>
+                        <span>DISPLAY=:1 [gestor]</span>
+                    </p>
+
+                    <p class="content-item-subtitle">
+                        Ranger
+                    </p>
+                    <p class="content-item-text">
+                        Explarador de archivos de terminal por excelencia.
+                    </p>
+
+                    <p class="content-item-code">
+                        <span>sudo pacman -S ranger</span>
+                    </p>
+                    <p class="content-item-obs">Para usarlo ranger en la terminal.</p>
+                    <p class="content-item-text">
+                        Para preview y programas por defecto al abrir.
+                    </p>
+
+                    <p class="content-item-subtitle">
+                        Scrot
+                    </p>
+
+                    <p class="content-item-text">
+                        Para hacer capturas de pantalla.
+                    </p>
+
+                    <p class="content-item-code">
+                        <span>sudo pacman -S scrot</span>
+                    </p>
+
+                    <p class="content-item-obs">
+                        Los keybinding ya estan configurados en qtile.
+                    </p>
+
+                    <p class="content-item-subtitle">
+                        VLC
+                    </p>
+
+                    <p class="content-item-text">
+                        Reproductor de video maravilloso.
+                    </p>
+
+                    <p class="content-item-code">
+                        <span>sudo pacman -S vlc</span>
+                    </p>
+
+                    <p class="content-item-obs">
+                        Para usarlo vlc file.format
+                    </p>
+
+                    <p class="content-item-subtitle">
+                        Picom
+                    </p>
+                    <p class="content-item-text">
+                        Es un compositor, permite aplicar transparencias entre otras cosas, para ello
+                        hay que descomprimir mi archivo zip en una carpeta llamada picom preferiblemente.
+                    </p>
+                    <p class="content-item-code">
+                        <span>cd picom</span>
+                        <span>meson --buildtype=release . build</span>
+                        <span>ninja -C build</span>
+                        <span>sudo ninja -C build install</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Leer el readme para mas info, ademas hay que instalar uthash, y tener el base-devel instalado (pero deberiamos tenerlo
+                        ya que lo instalamos en la instalacion perse).
+                    </p>
+                    <p class="content-item-text">
+                        Creamos un directorio en .config con el nombre picom y dentro un archivo picom.conf
+                    </p>
+                    <p class="content-item-code">
+                        <span>locate picom.sample.conf</span>
+                        <span>mkdir .config/picom/</span>
+                        <span>cp /path/picom.sample.conf .config/picom/</span>
+                        <span>cd /path/.config/picom/</span>
+                        <span>mv picom.sample.conf picom.conf</span>
+                    </p>
+                    <p class="content-item-text">
+                        Copiar la configuraion mia en ese documento.
+                    </p>
+                    <p class="content-item-text">
+                        Para aplicar la configuracion.
+                    </p>
+                    <p class="content-item-code">
+                        <span>picon --config /path/picom.conf</span>
+                    </p>
+                    <p class="content-item-obs">
+                        Si da error usar el siguiente argumento --no-vsync, y se quedaria guardada esta configuracion.
+                    </p>
+                    <p class="content-item-text">
+                        Es importante habilitar la aceleracion 3D en las configuraciones de VMware de la maquina virtual
+                        si quieres que funcione las transparencias, fade entre otros.
+                    </p>
+                    <p class="content-item-text">
+                        Meterlo en el autostart.sh para que inicie
+                    </p>
+                    <p class="content-item-code">
+                        <span>picom --experimental-backend -b</span>
+                    </p>
+                    <p class="content-item-subtitle">
+                        Zathura
+                    </p>
+                    <p class="content-item-text">
+                        Visor de documentos minimalista, vim like, autosync with latex.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S zathura zathura-cb zathura-pdf-mupdf zathura-djvu zathura-ps</span>
+                    </p>
+                    <p class="content-item-text">
+                        Configuracion de zathura, crear la carpeta y dentro de ella zathurarc
+                    </p>
+                    <p class="content-item-code">
+                        <span>mkdir ./config/zathura</span>
+                        <span>nano ./config/zathura/zathurarc</span>
+                    </p>
+                    <p class="content-item-text">
+                        En zathurarc pegamos mi archivo de configuracion.
+                    </p>
+                    <p class="content-item-subtitle">
+                        CMUS
+                    </p>
+                    <p class="content-item-text">
+                        Reproductor de musica de terminal.
+                    </p>
+                    <p class="content-item-code">
+                        <span>sudo pacman -S cmus</span>
+                    </p>
+                    <p class="content-item-text">
+                        Para instalar un tema solo hay que crear la carpeta .cmus en .config si no existe
+                    </p>
+                    <p class="content-item-code">
+                        <span>mkdir .config/cmus</span>
+                    </p>
+                    <p class="content-item-text">
+                        Y pegar mi archvio de theme alli, y luego dentro de cmus
+                    </p>
+                    <p class="content-item-code">
+                        <span>:colorscheme themeCustom</span>
+                    </p>
+                    <p class="content-item-obs">
+                        El nombre basicamente es el nombre del archivo
+                    </p>
+                    <p class="content-item-subtitle">
+                        NVIM
+                    </p>
+                    <p class="content-item-subtitle">
+                        Lighdm
+                    </p>
+                    <p class="content-item-subtitle">
+                        TeX
+                    </p>
+                    <p class="content-item-subtitle">
+                        Java
+                    </p>
+                    <p class="content-item-subtitle">
+                        Mysql
+                    </p>
+                    <p class="content-item-subtitle">
+                        PHP
+                    </p>
+                    <p class="content-item-subtitle">
+                        Front-End (HTML5, CSS3, JS)
+                    </p>
+                    <p class="content-item-subtitle">
+                        Servidor Web
                     </p>
                 </div>
             </div>
